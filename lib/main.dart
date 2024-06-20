@@ -4,7 +4,6 @@ import 'package:mynotes/views/firebase_options.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mynotes/views/register_view.dart';
-import 'package:mynotes/views/register_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +15,10 @@ void main() {
       useMaterial3: true,
     ),
     home: const HomePage(),
+    routes: {
+      '/register/': (context) => const RegisterView(),
+      '/login/': (context) => const LoginView(),
+    },
   ),
   );
 }
@@ -25,31 +28,18 @@ class HomePage extends StatelessWidget {
 
 @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        backgroundColor: Colors.blue,
-      ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         ),
         builder: (context, snapshot) {
-          switch(snapshot.connectionState){
+          switch (snapshot.connectionState) {
             case ConnectionState.done:
-            final user=FirebaseAuth.instance.currentUser;
-            if(user?.emailVerified??false){
-              print('You need to verify your email');
-            }else{
-              print('DOne');
-            }
-              return const Text('Done');
+              return const LoginView();
             default:
-              return const Text("loading..");
-          }
-
+                return const CircularProgressIndicator();
+            } 
         },
-      ),
-    );
+      );
   }
 }
