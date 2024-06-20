@@ -39,17 +39,39 @@ class HomePage extends StatelessWidget {
             final user=FirebaseAuth.instance.currentUser;
             if(user!=null){
               if(user.emailVerified){
-                print('Email verified');
+                return const NotesView();
             }else{
              return const VerifyExailView();
             }
-            return const LoginView();
             }
-            return const Text('Done');
+            return const LoginView();
             default:
                 return const CircularProgressIndicator();
             } 
         },
       );
+  }
+}
+// git remote add origin https://github.com/karkisaroj/karkisaroj.git
+// git branch -M main
+// git push -u origin main
+
+class NotesView extends StatefulWidget {
+  const NotesView({super.key});
+
+  @override
+  State<NotesView> createState() => _NotesViewState();
+} 
+
+class _NotesViewState extends State<NotesView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Your Notes'),
+        backgroundColor: Colors.blue[400],
+      ),
+      body: const Text('Hello world!'),
+    );
   }
 }
