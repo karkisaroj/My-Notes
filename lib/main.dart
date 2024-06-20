@@ -53,3 +53,6 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+// git remote add origin https://github.com/karkisaroj/karkisaroj.git
+// git branch -M main
+// git push -u origin main
