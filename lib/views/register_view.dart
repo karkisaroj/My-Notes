@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
-import 'package:mynotes/views/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:developer' as devtools show log;
+import 'package:mynotes/utilities/show_error_dialogs.dart';
+
+
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -68,17 +68,28 @@ class _RegisterViewState extends State<RegisterView> {
                     email: email,
                     password: password,
                   );
+                  final user=FirebaseAuth.instance.currentUser;
+                  user?.sendEmailVerification();
+                  Navigator.of(context).pushNamed(verifyEmailRoutes);
 
-                  devtools.log(userCredential.toString());
+                    showErrorDialog(context,'The password is too weak.');
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
-                    devtools.log('The password is too weak.');
+                    showErrorDialog(context,'The password is too weak.');
                   } else if (e.code == 'email-already-in-use') {
-                    devtools.log('The email is already in use by another account.');
+                    showErrorDialog(context,'The email is already in use by another account.');
                   } else if (e.code == 'invalid-email') {
-                    devtools.log('The email address is not valid.');
+                    showErrorDialog(context,'The email address is not valid.');
+                  }else{
+                    showErrorDialog(context,'Error:${e.message}',
+                    );
                   }
-                }
+                }catch(e) {
+                await showErrorDialog(
+                      context, 
+                      e.toString(),
+                  );
+              }
               },
               child: const Text('Register'),
             ),

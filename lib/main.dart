@@ -22,6 +22,7 @@ void main() {
       registerRoute: (context) => const RegisterView(),
       loginRoute: (context) => const LoginView(),
       notesRoute:(context) => const NotesView(),
+      verifyEmailRoutes:(context)=> const VerifyExailView(),
     },
   ),
   );
